@@ -1,0 +1,39 @@
+// Example 0
+// read a csv as a list of lists
+// var myInput = webpplCsv.readCSV("test.csv")
+
+// Example 1
+// write a list of lists as a csv
+// var myOutput = append(myInput, [["m","h","t"]])
+// webpplCsv.writeCSV(myOutput, "output.csv")
+
+// Example 2
+// write a file line-by-line
+// var output_file = "sequential_output.csv"
+// var output_handle = webpplCsv.openFile(output_file)
+// webpplCsv.writeLine(output_handle, "t,h,i,s")
+// webpplCsv.writeLine(output_handle, "i,s,,a")
+// webpplCsv.writeLine(output_handle, "t,e,s,t")
+// webpplCsv.closeFile(output_handle)
+
+
+// Examples 3 & 4
+// write an erp
+var myBinomial = Enumerate(function(){
+	var a = flip(0.5)
+	var b = flip(0.9)
+	return {a: a,
+			b: b,
+			"A&B": a+b}
+})
+
+var erp_file = "erp_output.csv"
+var output_handle = webpplCsv.openFile(erp_file)
+
+// writeMarginals will automatically marginalize the erp, writing one variable per line
+// webpplCsv.writeMarginals(output_handle, myBinomial)
+
+// writeJoint will maintain the joint distributional information
+webpplCsv.writeJoint(output_handle, myBinomial)
+
+webpplCsv.closeFile(output_handle)

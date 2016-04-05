@@ -1,0 +1,7 @@
+{
+  "name": "webppl-csv",
+  "main": "src/library.js",
+  "dependencies": {
+    "babyparse": "^0.4.3"
+  }
+}
