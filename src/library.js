@@ -1,5 +1,5 @@
 var fs = require('fs');
-var babyparse = require('babyparse');
+var Papa = require('papaparse');
 
 var writeDistTable = function(erp, header, filename) {
  var supp = erp.support();
@@ -18,11 +18,11 @@ var supportWriter = function(s, p, handle) {
 };
 
 function readCSV(filename){
-  return babyparse.parse(fs.readFileSync(filename, 'utf8')).data;
+  return Papa.parse(fs.readFileSync(filename, 'utf8')).data;
 };
 
 function writeCSV(jsonCSV, filename){
-  fs.writeFileSync(filename, babyparse.unparse(jsonCSV) + "\n");
+  fs.writeFileSync(filename, Papa.unparse(jsonCSV) + "\n");
 };
 
 // for more manual file writing control

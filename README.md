@@ -40,8 +40,9 @@ To globally install `webppl-csv`, run:
 This may print warnings (`npm WARN ENOENT`...) which can be ignored.
 
 To upgrade to the latest version, run:
-
+~~~~
 npm install --prefix ~/.webppl webppl-csv --force
+~~~~
 
 ## Usage
 
@@ -53,4 +54,4 @@ Once installed, you can make all `csv.` functions available to `program.wppl` by
 
 Run the included test using:
 
-    webppl test.wppl --require .
+    webppl test/test.wppl --require .
