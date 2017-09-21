@@ -1,39 +1,40 @@
-// Example 0
-// read a csv as a list of lists
-// var myInput = webpplCsv.readCSV("test.csv")
+// example 1: read / write via lists of lists
 
-// Example 1
-// write a list of lists as a csv
-// var myOutput = append(myInput, [["m","h","t"]])
-// webpplCsv.writeCSV(myOutput, "output.csv")
-
-// Example 2
-// write a file line-by-line
-// var output_file = "sequential_output.csv"
-// var output_handle = webpplCsv.openFile(output_file)
-// webpplCsv.writeLine(output_handle, "t,h,i,s")
-// webpplCsv.writeLine(output_handle, "i,s,,a")
-// webpplCsv.writeLine(output_handle, "t,e,s,t")
-// webpplCsv.closeFile(output_handle)
+// var testData = csv.read('data/test-file.csv');
+// display(testData)
+// csv.write(testData, 'data/test-file-copy.csv');
 
 
-// Examples 3 & 4
-// write an erp
-var myBinomial = Enumerate(function(){
-	var a = flip(0.5)
-	var b = flip(0.9)
-	return {a: a,
-			b: b,
-			"A&B": a+b}
-})
+// example 2: writing distributions
 
-var erp_file = "erp_output.csv"
-var output_handle = webpplCsv.openFile(erp_file)
+// var myJointDistribution = Infer({model: function(){
+// 	var a = flip(0.5)
+// 	var b = flip(0.9)
+// 	return {a, b}
+// }})
 
-// writeMarginals will automatically marginalize the erp, writing one variable per line
-// webpplCsv.writeMarginals(output_handle, myBinomial)
+// write distribution, maintaining joint distributional information
+// csv.writeJoint(myJointDistribution, 'data/test-joint.csv')
 
-// writeJoint will maintain the joint distributional information
-webpplCsv.writeJoint(output_handle, myBinomial)
+// write distribution, one variable per line (marginalized)
+// csv.writeMarginals(myJointDistribution, 'data/test-marginals.csv')
 
-webpplCsv.closeFile(output_handle)
+
+// example 3: writing line by line
+// var output_handle = csv.open("data/sequential-output.csv")
+// csv.writeLine("t,h,i,s", output_handle)
+// csv.writeLine("i,s,,a", output_handle)
+// csv.writeLine("t,e,s,t", output_handle)
+// csv.close(output_handle)
+
+// example 4: write distribution with query.table
+var myQueryDistribution = Infer({model: function(){
+	var a = uniform(0, 0.5)
+	var b = uniform(0.5, 1)
+	query.add("A", a)
+	query.add("B", b)
+	return query
+}, method: "MCMC", samples: 10})
+
+
+csv.writeDistTable(myQueryDistribution, "param, val", "data/query-table.csv")

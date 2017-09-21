@@ -1,17 +1,16 @@
 var fs = require('fs');
 var babyparse = require('babyparse');
 
-// can work with an erp of query.tables (useful for data analysis models)
-var writeQueryERP = function(erp, filename, header) {
+var writeDistTable = function(erp, header, filename) {
  var supp = erp.support();
  var csvFile = fs.openSync(filename, 'w');
- fs.writeSync(csvFile,header + ',prob\n')
+ fs.writeSync(csvFile, header + ',prob\n')
  supp.forEach(function(s) {supportWriter(s, Math.exp(erp.score(s)), csvFile);})
  fs.closeSync(csvFile);
 };
 
 var supportWriter = function(s, p, handle) {
- var sLst = _.pairs(s);
+ var sLst = _.toPairs(s);
  var l = sLst.length;
  for (var i = 0; i < l; i++) {
    fs.writeSync(handle, sLst[i].join(',')+','+p+'\n');
@@ -32,19 +31,37 @@ var openFile = function(filename) {
  return csvFile
 };
 
-var writeLine = function(handle, line){
+var writeLine = function(line, handle){
   fs.writeSync(handle, line+'\n');
 };
 
-var writeMarginals = function(handle,erp) {
-   var supp = erp.support([]);
-   supp.forEach(function(s) {supportWriter(s, Math.exp(erp.score(s)), handle);})
+var writeMarginals = function(erp, filename) {
+  var handle = openFile(filename);
+  var supp = erp.support();
+  supp.forEach(
+    function(s) {
+      supportWriter(s, Math.exp(erp.score(s)), handle);
+    }
+  )
+  closeFile(handle);
 };
 
-var writeJoint = function(handle,erp) {
-   var supp = erp.support();
-   _.isObject(supp[0]) ? writeLine(handle, [_.keys(supp[0]),"prob"].join(',')) : null
-   supp.forEach(function(s) {writeLine(handle, [_.values(s), Math.exp(erp.score(s))].join(','));})
+var writeJoint = function(erp, filename) {
+  var handle = openFile(filename);
+  var supp = erp.support();
+   _.isObject(supp[0]) ?
+   writeLine([_.keys(supp[0]),"prob"].join(','),
+ handle) :
+   null
+
+   supp.forEach(function(s) {
+     writeLine([
+       _.values(s),
+       Math.exp(erp.score(s))
+     ].join(','), handle
+     );
+   })
+   closeFile(handle);
 };
 
 var closeFile = function(handle){
@@ -59,5 +76,5 @@ module.exports = {
   openFile: openFile,
   closeFile: closeFile,
   writeLine: writeLine,
-  writeQueryERP:writeQueryERP
+  writeDistTable: writeDistTable
 };
