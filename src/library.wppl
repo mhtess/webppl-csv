@@ -7,7 +7,7 @@ var dataFrame = function(d, fieldsToNumerify){
         function(lst){
             return _.fromPairs(map(function(l){
                 return _.indexOf(fieldsToNumerify, l[0]) > -1 ?
-                            [l[0], utils.wpParseFloat(l[1])] : l
+                            [l[0], webpplCsv.wpParseFloat(l[1])] : l
             },
             _.zip(d[0],lst)
             ))
