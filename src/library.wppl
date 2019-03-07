@@ -1,0 +1,16 @@
+var removeExtraRow = function(lst){
+  return lst.slice(0, lst.length - 1)
+}
+
+var dataFrame = function(d, fieldsToNumerify){
+    return removeExtraRow(map(
+        function(lst){
+            return _.fromPairs(map(function(l){
+                return _.indexOf(fieldsToNumerify, l[0]) > -1 ?
+                            [l[0], utils.wpParseFloat(l[1])] : l
+            },
+            _.zip(d[0],lst)
+            ))
+        },
+        d.slice(1)))
+}

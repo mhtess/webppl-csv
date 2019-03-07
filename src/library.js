@@ -1,6 +1,11 @@
 var fs = require('fs');
 var Papa = require('papaparse');
 
+function wpParseFloat(x){
+  return parseFloat(x);
+};
+
+
 var writeDistTable = function(erp, header, filename) {
  var supp = erp.support();
  var csvFile = fs.openSync(filename, 'w');
@@ -76,5 +81,6 @@ module.exports = {
   openFile: openFile,
   closeFile: closeFile,
   writeLine: writeLine,
-  writeDistTable: writeDistTable
+  writeDistTable: writeDistTable,
+  wpParseFloat: wpParseFloat
 };
