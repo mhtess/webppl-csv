@@ -16,6 +16,6 @@
   },
   "homepage": "https://github.com/mhtess/webppl-csv",
   "dependencies": {
-    "papaparse": "4.3"
+    "papaparse": ">=5.2.0"
   }
 }
