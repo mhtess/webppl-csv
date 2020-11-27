@@ -1,6 +1,6 @@
 {
   "name": "webppl-csv",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "WebPPL library for reading and writing CSV files",
   "webppl": {
     "wppl": ["src/csv.wppl", "src/library.wppl"]
